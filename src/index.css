@@ -1,0 +1,193 @@
+:root {
+  --color-bg: #FDF6F3;
+  --color-accent-light: #EAD7D1;
+  --color-accent: #D9A7A0;
+  --color-accent-dark: #C0847A;
+  --color-text: #2F2F2F;
+  --color-white: #FFFFFF;
+  
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-blur: 20px;
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  
+  --radius-lg: 20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+section {
+  padding: 100px 5%;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 60px 4%;
+  }
+  
+  .premium-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .premium-text {
+    font-size: 1rem !important;
+  }
+  
+  .premium-button {
+    width: 100%;
+    text-align: center;
+    padding: 15px 20px;
+  }
+  
+  .page-container {
+    padding: 100px 4% 40px !important;
+  }
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+}
+
+.premium-button {
+  padding: 12px 30px;
+  border-radius: 50px;
+  border: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.button-primary {
+  background-color: var(--color-accent-dark);
+  color: var(--color-white);
+}
+
+.button-secondary {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- GLOBAL SPACING REDUCTIONS --- */
+
+/* Desktop Spacing (up to 1440px) */
+section, .page-container {
+    padding-top: 70px !important;
+    padding-bottom: 70px !important;
+}
+
+footer {
+    padding-top: 60px !important;
+    padding-bottom: 30px !important;
+}
+
+/* Exception for Hero to clear the fixed navbar */
+#hero {
+    padding-top: 120px !important;
+    padding-bottom: 60px !important;
+}
+
+/* Headings margin bottom reduction */
+.premium-title {
+    margin-bottom: 24px !important;
+}
+
+/* Elements with specific large hardcoded inline margins */
+*[style*="margin-bottom: 70px"],
+*[style*="marginBottom: '70px'"],
+*[style*="margin-bottom: 60px"],
+*[style*="marginBottom: '60px'"] {
+    margin-bottom: 35px !important;
+}
+
+*[style*="margin: 0px auto 60px"],
+*[style*="margin: '0 auto 60px'"],
+*[style*="margin: 0px auto 70px"],
+*[style*="margin: '0 auto 70px'"] {
+    margin-bottom: 35px !important;
+}
+
+/* Custom massive padding reductions (like CTA glass-cards) */
+*[style*="padding: 100px 30px"] {
+    padding: 60px 30px !important;
+}
+
+/* Mobile Spacing (<768px) */
+@media (max-width: 768px) {
+    section, .page-container {
+        padding-top: 90px !important;
+        padding-bottom: 40px !important;
+    }
+    
+    footer {
+        padding-top: 40px !important;
+        padding-bottom: 20px !important;
+    }
+    
+    #hero {
+        padding-top: 100px !important; /* Navbar clear */
+        padding-bottom: 30px !important;
+    }
+    
+    .premium-title {
+        margin-bottom: 16px !important;
+    }
+
+    *[style*="margin-bottom: 70px"],
+    *[style*="marginBottom: '70px'"],
+    *[style*="margin-bottom: 60px"],
+    *[style*="marginBottom: '60px'"] {
+        margin-bottom: 20px !important;
+    }
+
+    *[style*="margin: 0px auto 60px"],
+    *[style*="margin: '0 auto 60px'"],
+    *[style*="margin: 0px auto 70px"],
+    *[style*="margin: '0 auto 70px'"] {
+        margin-bottom: 20px !important;
+    }
+    
+    *[style*="padding: 100px 30px"] {
+        padding: 40px 20px !important;
+    }
+}
