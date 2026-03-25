@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Volume2, VolumeX } from 'lucide-react';
 
 const videos = [
   "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007966/WhatsApp_Video_2026-03-19_at_17.20.53_nmnka5.mp4",
@@ -22,6 +22,7 @@ const photos = [
 const VideoCard = ({ src }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -53,6 +54,11 @@ const VideoCard = ({ src }) => {
     }
   };
 
+  const toggleMute = (e) => {
+    e.stopPropagation();
+    setIsMuted(!isMuted);
+  };
+
   return (
     <div
       style={{
@@ -79,10 +85,34 @@ const VideoCard = ({ src }) => {
         ref={videoRef}
         src={src}
         loop
-        muted
+        muted={isMuted}
         playsInline
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
+
+      <button
+        onClick={toggleMute}
+        style={{
+          position: 'absolute',
+          bottom: '15px',
+          right: '15px',
+          background: 'rgba(0,0,0,0.5)',
+          border: 'none',
+          borderRadius: '50%',
+          width: '36px',
+          height: '36px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          zIndex: 20,
+          color: 'white',
+          backdropFilter: 'blur(4px)'
+        }}
+        aria-label={isMuted ? "Unmute" : "Mute"}
+      >
+        {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+      </button>
 
       <div
         className="play-pause-overlay"
@@ -96,7 +126,8 @@ const VideoCard = ({ src }) => {
           background: 'rgba(0,0,0,0.2)',
           opacity: 0,
           transition: 'opacity 0.3s ease',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          zIndex: 10
         }}
       >
         <div style={{

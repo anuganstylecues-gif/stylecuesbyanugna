@@ -23,13 +23,13 @@ const ServiceCard = ({ icon: Icon, title, description, program, index }) => {
     >
       <div className="card-inner" style={{ padding: '40px 40px 30px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <div className="card-heading-container" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-          <div className="icon-box" style={{ 
-            width: '60px', 
-            height: '60px', 
-            borderRadius: '15px', 
-            background: 'var(--color-accent-light)', 
-            display: 'flex', 
-            justifyContent: 'center', 
+          <div className="icon-box" style={{
+            width: '60px',
+            height: '60px',
+            borderRadius: '15px',
+            background: 'var(--color-accent-light)',
+            display: 'flex',
+            justifyContent: 'center',
             alignItems: 'center',
             color: 'var(--color-accent-dark)',
             flexShrink: 0
@@ -39,10 +39,10 @@ const ServiceCard = ({ icon: Icon, title, description, program, index }) => {
           <h3 className="card-title" style={{ fontSize: '1.8rem', margin: 0, fontFamily: 'var(--font-heading)', wordBreak: 'break-word' }}>{title}</h3>
         </div>
         <p className="card-desc" style={{ color: '#555', fontSize: '1rem', lineHeight: '1.6', marginBottom: '30px', flexGrow: 1, overflow: 'hidden' }}>{description}</p>
-        
-        <div className="program-box" style={{ 
-          background: 'var(--color-bg)', 
-          padding: '20px', 
+
+        <div className="program-box" style={{
+          background: 'var(--color-bg)',
+          padding: '20px',
           borderRadius: '15px',
           border: '1px solid rgba(0,0,0,0.05)',
           marginTop: 'auto',
@@ -53,11 +53,11 @@ const ServiceCard = ({ icon: Icon, title, description, program, index }) => {
           <h4 className="program-title" style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading)', color: 'var(--color-accent-dark)', marginBottom: '5px' }}>{program.name}</h4>
           <p className="program-details" style={{ fontSize: '0.9rem', color: '#666', marginBottom: '15px' }}>{program.details}</p>
           {program.price && <div className="program-price" style={{ fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '20px' }}>{program.price}</div>}
-          
-          <Link 
-            to={program.route} 
+
+          <Link
+            to={program.route}
             state={{ program: program.name, price: program.price }}
-            className="premium-button button-primary program-btn" 
+            className="premium-button button-primary program-btn"
             style={{ width: '100%', textAlign: 'center', padding: '12px 20px', marginTop: program.price ? 'auto' : '20px', display: 'block' }}
           >
             {program.buttonText}
@@ -73,7 +73,7 @@ export default function Services() {
     {
       icon: Palette,
       title: "Color Analysis",
-      description: "Discover your perfect seasonal palette and understand which colors make your natural features shine. We analyze your skin tone, hair, and eye color to build a harmonious color guide.",
+      description: "Discover your ideal color palette and learn which shades enhance your natural features based on your skin, hair, and eyes.",
       program: {
         name: "Online Color Analysis Session",
         details: "45 min virtual session + 50-page digital style lookbook.",
@@ -135,7 +135,7 @@ export default function Services() {
     const { children } = scrollRef.current;
     if (children.length === 0) return;
     const cardWidth = children[0].offsetWidth + 30; // Matches gap logic
-    
+
     scrollRef.current.scrollTo({
       left: index * cardWidth,
       behavior: 'smooth'
@@ -145,12 +145,12 @@ export default function Services() {
 
   return (
     <div style={{ background: 'transparent', padding: '20px 0', position: 'relative' }}>
-      
-      <div 
+
+      <div
         ref={scrollRef}
         onScroll={handleScroll}
-        style={{ 
-          display: 'flex', 
+        style={{
+          display: 'flex',
           flexDirection: 'row',
           flexWrap: 'nowrap',
           overflowX: 'auto',
@@ -175,7 +175,7 @@ export default function Services() {
       {/* Slider Buttons (Left/Right) for mobile/tablet */}
       {isMobile && (
         <>
-          <button 
+          <button
             onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
             className="slider-button"
             style={{ left: '15px' }}
@@ -184,7 +184,7 @@ export default function Services() {
             <ChevronLeft size={24} color={activeIndex === 0 ? '#ccc' : 'var(--color-accent-dark)'} />
           </button>
 
-          <button 
+          <button
             onClick={() => scrollTo(Math.min(mergedServices.length - 1, activeIndex + 1))}
             className="slider-button"
             style={{ right: '15px' }}

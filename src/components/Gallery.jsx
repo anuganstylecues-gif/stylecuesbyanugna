@@ -79,22 +79,28 @@ export default function Gallery() {
 
         @media (max-width: 992px) {
           .marquee-item {
-            width: 280px;
-            height: 240px;
+            // width: 280px;
+            // height: 240px;
+               width: auto;
+          height: auto;
           }
         }
 
         @media (max-width: 768px) {
           .marquee-item {
-            width: 250px;
-            height: 220px;
+            // width: 250px;
+            // height: 220px;
+               width: auto;
+          height: auto;
           }
         }
         
         @media (max-width: 480px) {
           .marquee-item {
-            width: 220px;
-            height: 200px;
+            // width: 220px;
+            // height: 200px;
+               width: auto;
+          height: auto;
           }
           .marquee-content {
             gap: 20px;
