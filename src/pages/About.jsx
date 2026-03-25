@@ -11,7 +11,7 @@ const About = () => {
   return (
     <div className="page-container" style={{ padding: '120px 5% 60px' }}>
       <section className="about-hero" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -21,13 +21,59 @@ const About = () => {
           <p className="premium-text" style={{ fontSize: '1.2rem', color: 'var(--color-accent-dark)', fontWeight: '500', marginBottom: '20px' }}>
             Bridal & Personal Stylist | Color Analysis Expert | Internationally Certified Image Consultant
           </p>
-          <p className="premium-text">
+          {/* <p className="premium-text">
             Based in India, Anugna Reddy is a visionary in the world of personal styling and image consulting. With an eye for detail and a passion for color harmony, she helps individuals discover their most authentic selves through style.
           </p>
           <p className="premium-text">
             Her philosophy is simple: Style is a language, and everyone deserves to speak it fluently. Whether it's for the most important day of your life or your everyday wardrobe, Anugna brings a blend of luxury, elegance, and practical styling to every consultation.
-          </p>
-          
+          </p> */}
+
+          <ul style={{
+            listStyle: 'none',
+            padding: 0,
+            maxWidth: '700px',
+            margin: '0 auto',
+            textAlign: 'left'
+          }}>
+            {[
+              "Based in India, Anugna Reddy is a visionary in personal styling and image consulting.",
+              "Possesses a refined eye for detail and a passion for color harmony.",
+              "Guides individuals to discover their most authentic selves through style.",
+              "Believes style is a language that everyone deserves to speak fluently.",
+              "Caters to both special occasions and everyday wardrobe styling.",
+              "Delivers a perfect blend of luxury, elegance, and practicality in every consultation."
+            ].map((item, index) => (
+              <li key={index} style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '12px',
+                marginBottom: '14px'
+              }}>
+
+                {/* ICON */}
+                <span style={{
+                  minWidth: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  background: 'var(--color-accent, #000)',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                }}>
+                  ✓
+                </span>
+
+                {/* TEXT */}
+                <span className="premium-text">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginTop: '40px' }}>
             {stats.map((stat, idx) => (
               <div key={idx} style={{ padding: '20px', background: 'rgba(255,255,255,0.5)', borderRadius: '15px', border: '1px solid rgba(0,0,0,0.05)' }}>
@@ -38,22 +84,22 @@ const About = () => {
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           style={{ position: 'relative' }}
         >
-          <div style={{ 
-            width: '100%', 
-            aspectRatio: '4/5', 
-            borderRadius: '30px', 
+          <div style={{
+            width: '100%',
+            aspectRatio: '4/5',
+            borderRadius: '30px',
             overflow: 'hidden',
             boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
           }}>
-            <img 
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
-              alt="Anugna Reddy Stylist" 
+            <img
+              src="https://res.cloudinary.com/ducb7wymk/image/upload/v1774434434/IMG_0595_qsns2m.jpg"
+              alt="Anugna Reddy Stylist"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
@@ -64,13 +110,13 @@ const About = () => {
         <h2 className="premium-title" style={{ fontSize: '2.5rem' }}>Certifications & Expertise</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px', marginTop: '40px' }}>
           {['Certified Image Consultant', 'Color Analysis Specialist', 'Bridal Styling Expert', 'Wardrobe Management', 'Etiquette Training'].map((item, idx) => (
-            <motion.div 
+            <motion.div
               key={idx}
               whileHover={{ y: -5 }}
-              style={{ 
-                padding: '15px 30px', 
-                background: 'white', 
-                borderRadius: '50px', 
+              style={{
+                padding: '15px 30px',
+                background: 'white',
+                borderRadius: '50px',
                 boxShadow: '0 10px 20px rgba(0,0,0,0.05)',
                 fontWeight: '500',
                 border: '1px solid var(--color-accent-light)'

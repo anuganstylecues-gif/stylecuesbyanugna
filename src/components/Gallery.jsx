@@ -2,14 +2,14 @@ import { motion } from 'framer-motion';
 
 export default function Gallery() {
   const images = [
-    "bridal_styling_session_1773512915106.png",
-    "color_analysis_palette_1773512930582.png",
-    "style_transformation_portrait_1773512948495.png",
-    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop"
-  ];
-
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434885/IMG_8505_l1ynz7.jpg",
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434885/IMG_8513_yvhiwd.jpg",
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434885/IMG_8507_g8jgjr.jpg",
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434884/IMG_8506_cnsysm.jpg",
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434879/IMG_8504_lnpmgs.jpg",
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434877/IMG_8274_iuo6zv.jpg",
+    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434878/IMG_8341_ebtkmd.jpg"
+  ]
   // Duplicate the array for a seamless infinite scroll effect
   const marqueeImages = [...images, ...images];
 
@@ -37,8 +37,8 @@ export default function Gallery() {
         }
 
         .marquee-item {
-          width: 320px;
-          height: 260px;
+          width: auto;
+          height: auto;
           border-radius: 16px;
           overflow: hidden;
           flex-shrink: 0;
@@ -48,9 +48,12 @@ export default function Gallery() {
         }
 
         .marquee-item img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+          max-width: 320px;        /* max width control */
+          max-height: 260px;       /* max height control */
+          width: auto;
+          height: auto;
+          object-fit: contain;     /* full image visible */
+          object-position: center;
           display: block;
           transition: transform 0.6s ease;
         }

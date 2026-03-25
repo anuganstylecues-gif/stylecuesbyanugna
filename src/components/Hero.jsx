@@ -60,6 +60,7 @@ export default function Hero() {
       overflow: 'hidden',
       boxShadow: '0 30px 60px rgba(0,0,0,0.15)',
       border: '10px solid white',
+      objectFit: 'cover',
     },
     floatingCard: {
       position: 'absolute',
@@ -72,7 +73,7 @@ export default function Hero() {
   return (
     <section id="hero" style={styles.section}>
       {/* Background elements */}
-      <motion.div 
+      <motion.div
         style={{
           position: 'absolute', top: '10%', right: '5%', width: '400px', height: '400px',
           background: 'rgba(217, 167, 160, 0.2)', borderRadius: '50%', filter: 'blur(100px)',
@@ -81,9 +82,9 @@ export default function Hero() {
       />
 
       <div style={styles.container} className="hero-grid-container">
-        
+
         {/* HEADER SECTION */}
-        <motion.div 
+        <motion.div
           className="hero-header-section"
           style={{ gridArea: 'header', alignSelf: 'end' }}
           initial={{ opacity: 0, x: -50 }}
@@ -95,9 +96,9 @@ export default function Hero() {
             Discover Your <span style={{ color: 'var(--color-accent-dark)', fontStyle: 'italic' }}>Signature</span> Colors & Style
           </motion.h1>
         </motion.div>
-        
+
         {/* BODY SECTION */}
-        <motion.div 
+        <motion.div
           className="hero-body-section"
           style={{ gridArea: 'body', alignSelf: 'start' }}
           initial={{ opacity: 0, x: -50 }}
@@ -132,7 +133,7 @@ export default function Hero() {
         </motion.div>
 
         {/* IMAGE SECTION */}
-        <motion.div 
+        <motion.div
           style={styles.imageContainer}
           className="hero-image-content"
           initial={{ opacity: 0, x: 50 }}
@@ -140,22 +141,22 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div style={styles.imageWrapper} className="imageWrapper">
-            <img 
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop" 
+            <img
+              src="https://res.cloudinary.com/ducb7wymk/image/upload/v1774439013/copy_of_def967f5-76a9-4db2-b9d8-00dbfd36eed3_1_105_c_ooyqhw_09b06c.jpg"
               alt="Personal Stylist"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
 
-          <motion.div 
-            className="glass-card floating-card" 
+          <motion.div
+            className="glass-card floating-card"
             style={{ ...styles.floatingCard, bottom: '15%', right: '-10%' }}
             animate={{ y: [0, 15, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
           >
             <div style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>Confidence Level</div>
             <div style={{ height: '6px', background: '#eee', borderRadius: '3px', marginTop: '10px' }}>
-              <motion.div 
+              <motion.div
                 style={{ height: '100%', background: 'var(--color-accent-dark)', borderRadius: '3px' }}
                 initial={{ width: 0 }}
                 animate={{ width: '95%' }}
@@ -286,6 +287,7 @@ export default function Hero() {
             width: 100% !important;
             border-width: 4px !important; 
             aspect-ratio: 4/5;
+            object-fit: cover;
           }
         }
         @media (max-width: 480px) {

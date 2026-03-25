@@ -1,274 +1,329 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 
-const testimonials = [
-  // 1 - Text
-  {
-    type: 'text',
-    name: "Client 1",
-    role: "Color Analysis Session",
-    text: "I highly recommend Anugna's color analysis and styling session! Before this, I struggled to know which colors worked for me, but now I have complete clarity. The personalized PDF guide she provided is incredibly helpful and has made shopping so much easier. I finally know my palette and feel confident that I'm looking my best.",
-    rating: 5,
-    image: ""
-  },
-
-  // 2 - Video
-  {
-    type: 'video',
-    name: "Client 2",
-    role: "Personal Styling Session",
-    rating: 5,
-    videoUrl: "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007966/WhatsApp_Video_2026-03-19_at_17.20.53_nmnka5.mp4",
-    videoType: "mp4"
-  },
-
-  // 3 - Text
-  {
-    type: 'text',
-    name: "Client 3",
-    role: "Style Transformation Session",
-    text: "The style transformation was truly impressive. The changes were thoughtfully done, enhanced my confidence, and still kept my personality intact. As a brown-skin girlie who wanted to discover my true colors, this experience helped me do exactly that. I now feel more confident, aware, and comfortable choosing colors that truly suit me. It was truly a wonderful and empowering experience.",
-    rating: 5,
-    image: ""
-  },
-
-  // 4 - Video
-  {
-    type: 'video',
-    name: "Client 4",
-    role: "Color Analysis Session",
-    rating: 5,
-    videoUrl: "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007943/WhatsApp_Video_2026-03-19_at_17.16.41_ip1cvy.mp4",
-    videoType: "mp4"
-  },
-
-  // 5 - Text
-  {
-    type: 'text',
-    name: "Client 5",
-    role: "Personal Styling Session",
-    text: "Just wanted to say how grateful I am for your time and all the amazing insights you shared. Your knowledge is incredible, but what really stood out to me is how intentional you are with everything - from proportions to layering to those little details that make such a difference. It honestly feels like an art and a science at the same time! Thank you for making it such a thoughtful and inspiring experience.",
-    rating: 5,
-    image: ""
-  },
-
-  // 6 - Video
-  {
-    type: 'video',
-    name: "Client 6",
-    role: "Styling Session",
-    rating: 5,
-    videoUrl: "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007931/WhatsApp_Video_2026-03-19_at_17.16.40_iq3f6v.mp4",
-    videoType: "mp4"
-  },
-
-  // 7 - Text
-  {
-    type: 'text',
-    name: "Client 7",
-    role: "Styling Session",
-    text: "The session was so good and it went well. You're so friendly and homely person. As I said I was so excited and it all worth and each every penny worth and you did it with a lot of patience... Found my perfect colours and style so that I can purchase according to that and will sure connect with you in future for marriages and all. Thank you!",
-    rating: 5,
-    image: ""
-  },
-
-  // 8 - Text
-  {
-    type: 'text',
-    name: "Client 8",
-    role: "Color Analysis & Body Type Session",
-    text: "It was fantastic working with you on my color analysis and learning about my body type. I loved discovering my do's and don'ts, and I'm excited to use them in my daily style. Once I put together some looks, I'll share the pictures with you!",
-    rating: 5,
-    image: ""
-  },
+const videos = [
+  "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007966/WhatsApp_Video_2026-03-19_at_17.20.53_nmnka5.mp4",
+  "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007943/WhatsApp_Video_2026-03-19_at_17.16.41_ip1cvy.mp4",
+  "https://res.cloudinary.com/ducb7wymk/video/upload/v1774007931/WhatsApp_Video_2026-03-19_at_17.16.40_iq3f6v.mp4",
+  "https://res.cloudinary.com/ducb7wymk/video/upload/v1774434705/DC1D4A21-C930-4CDF-B5AA-FFFCB86FCEB2_u88bl6.mp4"
 ];
 
-export default function Testimonials() {
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+const photos = [
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007901/WhatsApp_Image_2026-03-19_at_17.16.41_3_gil2nt.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007901/WhatsApp_Image_2026-03-19_at_17.16.41_4_bbagec.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007901/WhatsApp_Image_2026-03-19_at_17.16.41_1_lsxxpy.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007902/WhatsApp_Image_2026-03-19_at_17.16.41_2_wmjpds.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007902/WhatsApp_Image_2026-03-19_at_17.16.41_5_qlbpus.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007902/WhatsApp_Image_2026-03-19_at_17.16.41_7_lch9ef.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007902/WhatsApp_Image_2026-03-19_at_17.16.41_8_mkuw6i.jpg",
+  "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007904/WhatsApp_Image_2026-03-19_at_17.16.41_6_hjrhnl.jpg"
+];
 
-  const next = () => {
-    setDirection(1);
-    setIndex((prev) => (prev + 1) % testimonials.length);
-  };
-  
-  const prev = () => {
-    setDirection(-1);
-    setIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+const VideoCard = ({ src }) => {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-  const current = testimonials[index];
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          videoRef.current?.play().catch(e => console.log(e));
+          setIsPlaying(true);
+        } else {
+          videoRef.current?.pause();
+          setIsPlaying(false);
+        }
+      });
+    }, { threshold: 0.5 });
 
-  const slideVariants = {
-    enter: (dir) => ({
-      x: dir > 0 ? 100 : -100,
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir) => ({
-      zIndex: 0,
-      x: dir < 0 ? 100 : -100,
-      opacity: 0,
-    })
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
 
   return (
-    <section id="testimonials" style={{ background: 'var(--color-bg)', overflow: 'hidden' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <h2 style={{ fontSize: '3rem' }}>Client <span style={{ fontStyle: 'italic', color: 'var(--color-accent-dark)' }}>Love</span></h2>
-        </div>
+    <div
+      style={{
+        width: '300px',
+        height: '500px',
+        borderRadius: 'var(--radius-lg, 16px)',
+        overflow: 'hidden',
+        position: 'relative',
+        flexShrink: 0,
+        backgroundColor: '#000',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+      }}
+      className="video-card-container"
+      onMouseEnter={(e) => {
+        const overlay = e.currentTarget.querySelector('.play-pause-overlay');
+        if (overlay) overlay.style.opacity = '1';
+      }}
+      onMouseLeave={(e) => {
+        const overlay = e.currentTarget.querySelector('.play-pause-overlay');
+        if (overlay) overlay.style.opacity = '0';
+      }}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        playsInline
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '600px', position: 'relative' }}>
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <motion.div
-              key={index}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="glass-card"
-              style={{
-                width: '100%',
-                maxWidth: current.type === 'video' ? '360px' : '600px',
-                padding: current.type === 'video' ? '20px' : '40px',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '20px'
-              }}
-            >
-              {current.type === 'text' ? (
-                 <>
-                   {/* <div style={{ position: 'relative', width: '90px', height: '90px', marginBottom: '10px' }}>
-                     <img 
-                       src={current.image} 
-                       alt={current.name}
-                       style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', border: '4px solid white', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}
-                     />
-                     <div style={{ position: 'absolute', bottom: -5, right: -5, background: 'var(--color-accent-dark)', color: 'white', borderRadius: '50%', padding: '5px' }}>
-                       <Star size={14} fill="currentColor" />
-                     </div>
-                   </div> */}
-
-                   <div style={{ display: 'flex', gap: '5px', color: 'var(--color-accent)' }}>
-                     {[...Array(current.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
-                   </div>
-
-                   <p style={{ fontSize: '1.2rem', fontStyle: 'italic', color: '#444', lineHeight: '1.6', fontFamily: 'var(--font-heading)' }}>
-                     "{current.text}"
-                   </p>
-
-                   {/* <div style={{ marginTop: '10px' }}>
-                     <h4 style={{ fontSize: '1.2rem', margin: '0 0 5px 0' }}>{current.name}</h4>
-                     <p style={{ color: '#888', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{current.role}</p>
-                   </div> */}
-                 </>
-              ) : (
-                 <>
-                   <div style={{ width: '100%', maxWidth: '320px', aspectRatio: '9/16', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: '#000', margin: '0 auto', boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}>
-                     {current.videoType === 'youtube' ? (
-                       <iframe 
-                         src={current.videoUrl} 
-                         width="100%" 
-                         height="100%" 
-                         frameBorder="0" 
-                         allow="autoplay; encrypted-media" 
-                         allowFullScreen
-                         style={{ border: 'none' }}
-                       />
-                     ) : current.videoType === 'vimeo' ? (
-                       <iframe 
-                         src={current.videoUrl} 
-                         width="100%" 
-                         height="100%" 
-                         frameBorder="0" 
-                         allow="autoplay; fullscreen; picture-in-picture" 
-                         allowFullScreen
-                         style={{ border: 'none' }}
-                       />
-                     ) : (
-                       <video 
-                         src={current.videoUrl}
-                         autoPlay
-                         muted
-                         loop
-                         playsInline
-                         controls
-                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                       />
-                     )}
-                   </div>
-                   
-                   <div style={{ display: 'flex', gap: '5px', color: 'var(--color-accent)', marginTop: '10px' }}>
-                     {[...Array(current.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
-                   </div>
-                   {/* <div>
-                     <h4 style={{ fontSize: '1.2rem', margin: '10px 0 5px 0' }}>{current.name}</h4>
-                     <p style={{ color: '#888', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{current.role}</p>
-                   </div> */}
-                 </>
-              )}
-            </motion.div>
-          </AnimatePresence>
-
-          <div style={{ 
-            position: 'absolute', 
-            top: '50%', 
-            left: 0, 
-            right: 0, 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            transform: 'translateY(-50%)',
-            pointerEvents: 'none',
-            zIndex: 10
-          }}>
-            <button className="nav-btn" onClick={prev} style={{ pointerEvents: 'auto', background: 'white', border: 'none', width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', cursor: 'pointer' }}><ChevronLeft /></button>
-            <button className="nav-btn" onClick={next} style={{ pointerEvents: 'auto', background: 'white', border: 'none', width: '50px', height: '50px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: '0 5px 15px rgba(0,0,0,0.1)', cursor: 'pointer' }}><ChevronRight /></button>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '40px' }}>
-          {testimonials.map((_, i) => (
-            <button 
-              key={i} 
-              onClick={() => {
-                setDirection(i > index ? 1 : -1);
-                setIndex(i);
-              }}
-              style={{ 
-                width: i === index ? '30px' : '10px', 
-                height: '10px', 
-                borderRadius: '5px', 
-                background: i === index ? 'var(--color-accent-dark)' : 'var(--color-accent-light)',
-                transition: 'all 0.3s ease',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0
-              }} 
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
+      <div
+        className="play-pause-overlay"
+        onClick={togglePlay}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(0,0,0,0.2)',
+          opacity: 0,
+          transition: 'opacity 0.3s ease',
+          cursor: 'pointer'
+        }}
+      >
+        <div style={{
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(4px)'
+        }}>
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--color-accent-dark, #000)"><path d="M6 4h4v16H6zm8 0h4v16h-4z" /></svg>
+          ) : (
+            <Play size={30} fill="var(--color-accent-dark, #000)" color="var(--color-accent-dark, #000)" style={{ marginLeft: '4px' }} />
+          )}
         </div>
       </div>
-      <style>{`
-        @media (max-width: 768px) {
-          #testimonials .glass-card { 
-            padding: 30px 15px !important; 
-            min-height: 500px;
-          }
-          #testimonials p { fontSize: 1.1rem !important; }
-          .nav-btn { display: none !important; }
+    </div>
+  );
+};
+
+const PhotoCard = ({ src }) => {
+  return (
+    <div
+      style={{
+        width: '300px',
+        height: '400px',
+        borderRadius: 'var(--radius-lg, 16px)',
+        overflow: 'hidden',
+        flexShrink: 0,
+        boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+        background: '#f5f5f5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '10px'
+      }}
+    >
+      <img
+        src={src}
+        alt="Client Photo"
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        loading="lazy"
+      />
+    </div>
+  );
+};
+
+const InfiniteSlider = ({ items, renderCard, gap = 20, itemWidth }) => {
+  const scrollRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Duplicate items heavily to avoid any scroll wrap-around issues 
+  // Simple CSS scroll-behavior approach gives natural smooth experience
+  const extendedItems = [...items, ...items, ...items, ...items, ...items, ...items, ...items];
+
+  const handleScroll = () => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    // A hack to make native infinite loop seamless on Desktop and Mobile
+    // 3 copies of item sets in each direction ensures robust left/right navigation
+    const cycleWidth = items.length * (itemWidth + gap);
+
+    if (container.scrollLeft <= cycleWidth) {
+      container.style.scrollBehavior = 'auto'; // Disable smooth scroll momentarily
+      container.scrollLeft += cycleWidth * 4; // Jump forward without transition
+      // Re-enable in next frame
+      requestAnimationFrame(() => {
+        if (container) container.style.scrollBehavior = 'smooth';
+      });
+    } else if (container.scrollLeft >= cycleWidth * 6) {
+      container.style.scrollBehavior = 'auto'; // Disable smooth scroll momentarily
+      container.scrollLeft -= cycleWidth * 4; // Jump back
+      // Re-enable in next frame
+      requestAnimationFrame(() => {
+        if (container) container.style.scrollBehavior = 'smooth';
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      // Start near the middle safely without smooth scrolling initially
+      const container = scrollRef.current;
+      const cycleWidth = items.length * (itemWidth + gap);
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft = cycleWidth * 3 - (containerRef.current.clientWidth - itemWidth) / 2;
+
+      // Apply smooth scrolling class after initializing position
+      setTimeout(() => {
+        if (container) container.style.scrollBehavior = 'smooth';
+      }, 50);
+    }
+  }, [items.length, itemWidth, gap]);
+
+  const scrollLeftBtn = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -(itemWidth + gap), behavior: 'smooth' });
+    }
+  };
+
+  const scrollRightBtn = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: (itemWidth + gap), behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', margin: '0 auto', maxWidth: '1200px' }}>
+      <button
+        onClick={scrollLeftBtn}
+        style={{
+          position: 'absolute',
+          left: '10px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10,
+          background: 'white',
+          border: 'none',
+          width: '50px',
+          height: '50px',
+          borderRadius: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+          cursor: 'pointer'
+        }}
+        aria-label="Previous"
+      >
+        <ChevronLeft size={24} color="var(--color-accent-dark, #000)" />
+      </button>
+
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="hide-scrollbar"
+        style={{
+          display: 'flex',
+          gap: gap + 'px',
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          padding: '20px calc(50% - 150px)', // Centers the middle card beautifully
+        }}
+      >
+        {extendedItems.map((item, idx) => (
+          <div key={idx} style={{ scrollSnapAlign: 'center', flexShrink: 0 }}>
+            {renderCard(item)}
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={scrollRightBtn}
+        style={{
+          position: 'absolute',
+          right: '10px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10,
+          background: 'white',
+          border: 'none',
+          width: '50px',
+          height: '50px',
+          borderRadius: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+          cursor: 'pointer'
+        }}
+        aria-label="Next"
+      >
+        <ChevronRight size={24} color="var(--color-accent-dark, #000)" />
+      </button>
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
         }
-      `}</style>
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      ` }} />
+    </div>
+  );
+};
+
+export default function Testimonials() {
+  return (
+    <section id="testimonials" style={{ background: 'var(--color-bg)', overflow: 'hidden', padding: '100px 0' }}>
+      <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)' }}>
+          Client <span style={{ fontStyle: 'italic', color: 'var(--color-accent-dark)' }}>Love</span>
+        </h2>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
+        <InfiniteSlider
+          items={videos}
+          renderCard={(src) => <VideoCard src={src} />}
+          itemWidth={300}
+        />
+
+        <InfiniteSlider
+          items={photos}
+          renderCard={(src) => <PhotoCard src={src} />}
+          itemWidth={300}
+        />
+      </div>
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @media (max-width: 768px) {
+          #testimonials {
+            padding: 60px 0 !important;
+          }
+          #testimonials h2 {
+            font-size: 2.5rem !important;
+          }
+        }
+      ` }} />
     </section>
   );
 }
