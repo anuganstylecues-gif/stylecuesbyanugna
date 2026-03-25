@@ -74,10 +74,12 @@ export default function Hero() {
     <section id="hero" style={styles.section}>
       {/* Background elements */}
       <motion.div
+        className="animated-element"
         style={{
           position: 'absolute', top: '10%', right: '5%', width: '400px', height: '400px',
           background: 'rgba(217, 167, 160, 0.2)', borderRadius: '50%', filter: 'blur(100px)',
-          y: y1
+          y: y1,
+          willChange: 'transform'
         }}
       />
 
@@ -85,11 +87,12 @@ export default function Hero() {
 
         {/* HEADER SECTION */}
         <motion.div
-          className="hero-header-section"
-          style={{ gridArea: 'header', alignSelf: 'end' }}
+          className="hero-header-section animated-element"
+          style={{ gridArea: 'header', alignSelf: 'end', willChange: 'transform, opacity' }}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          viewport={{ once: true }}
         >
           <span className="premium-subtitle" style={{ display: 'block', marginBottom: '15px' }}>Style Cues by Anugna Reddy</span>
           <motion.h1 style={styles.title} className="hero-title">
@@ -99,11 +102,12 @@ export default function Hero() {
 
         {/* BODY SECTION */}
         <motion.div
-          className="hero-body-section"
-          style={{ gridArea: 'body', alignSelf: 'start' }}
+          className="hero-body-section animated-element"
+          style={{ gridArea: 'body', alignSelf: 'start', willChange: 'transform, opacity' }}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
+          transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+          viewport={{ once: true }}
         >
           <p className="subtext" style={styles.subtext}>
             Elevate your personal brand with expert Color Analysis and Image Consulting. Based in India, serving clients globally.
@@ -134,23 +138,29 @@ export default function Hero() {
 
         {/* IMAGE SECTION */}
         <motion.div
-          style={styles.imageContainer}
-          className="hero-image-content"
+          style={{ ...styles.imageContainer, willChange: 'transform, opacity' }}
+          className="hero-image-content animated-element"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
+          viewport={{ once: true }}
         >
           <div style={styles.imageWrapper} className="imageWrapper">
             <img
               src="https://res.cloudinary.com/ducb7wymk/image/upload/v1774439013/copy_of_def967f5-76a9-4db2-b9d8-00dbfd36eed3_1_105_c_ooyqhw_09b06c.jpg"
               alt="Personal Stylist"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              width="600"
+              height="800"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
 
           <motion.div
-            className="glass-card floating-card"
-            style={{ ...styles.floatingCard, bottom: '15%', right: '-10%' }}
+            className="glass-card floating-card animated-element"
+            style={{ ...styles.floatingCard, bottom: '15%', right: '-10%', willChange: 'transform' }}
             animate={{ y: [0, 15, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
           >
@@ -160,7 +170,8 @@ export default function Hero() {
                 style={{ height: '100%', background: 'var(--color-accent-dark)', borderRadius: '3px' }}
                 initial={{ width: 0 }}
                 animate={{ width: '95%' }}
-                transition={{ duration: 2, delay: 1 }}
+                transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
+                viewport={{ once: true }}
               />
             </div>
           </motion.div>

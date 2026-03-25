@@ -21,6 +21,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
 html {
@@ -102,10 +111,19 @@ section {
   color: var(--color-text);
 }
 
-img {
+img, video {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+/* GPU acceleration for animated elements */
+.animated-element,
+.motion-div,
+[data-framer-motion] {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* --- GLOBAL SPACING REDUCTIONS --- */

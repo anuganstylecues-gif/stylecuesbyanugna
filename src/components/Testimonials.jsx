@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Play, Volume2, VolumeX } from 'lucide-react';
 
 const videos = [
@@ -19,15 +19,20 @@ const photos = [
   "https://res.cloudinary.com/ducb7wymk/image/upload/v1774007904/WhatsApp_Image_2026-03-19_at_17.16.41_6_hjrhnl.jpg"
 ];
 
-const VideoCard = ({ src }) => {
+const VideoCard = React.memo(({ src }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
+    let hasLoaded = false;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          if (!hasLoaded && videoRef.current) {
+            videoRef.current.load();
+            hasLoaded = true;
+          }
           videoRef.current?.play().catch(e => console.log(e));
           setIsPlaying(true);
         } else {
@@ -84,6 +89,8 @@ const VideoCard = ({ src }) => {
       <video
         ref={videoRef}
         src={src}
+        preload="none"
+        poster="https://res.cloudinary.com/ducb7wymk/image/upload/v1774007901/WhatsApp_Image_2026-03-19_at_17.16.41_3_gil2nt.jpg"
         loop
         muted={isMuted}
         playsInline
@@ -149,7 +156,7 @@ const VideoCard = ({ src }) => {
       </div>
     </div>
   );
-};
+});
 
 const PhotoCard = ({ src }) => {
   return (

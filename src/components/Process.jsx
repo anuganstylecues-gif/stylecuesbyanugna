@@ -102,11 +102,13 @@
 
 
 
+import React from 'react';
 import { motion } from 'framer-motion';
 
-const ProcessStep = ({ step, title, description, index }) => {
+const ProcessStep = React.memo(({ step, title, description, index }) => {
   return (
     <motion.div
+      className="animated-element"
       style={{
         flex: '1',
         minWidth: '250px',
@@ -119,7 +121,7 @@ const ProcessStep = ({ step, title, description, index }) => {
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
     >
       <div style={{
         width: '70px',
@@ -181,7 +183,7 @@ const ProcessStep = ({ step, title, description, index }) => {
       </p>
     </motion.div>
   );
-};
+});
 
 export default function Process() {
   const steps = [

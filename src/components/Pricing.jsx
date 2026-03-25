@@ -1,11 +1,12 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const PricingCard = ({ title, price, features, highlighted = false, index }) => {
+const PricingCard = React.memo(({ title, price, features, highlighted = false, index }) => {
   return (
     <motion.div
-      className="glass-card"
+      className="glass-card animated-element"
       style={{
         padding: '50px 40px',
         display: 'flex',
@@ -22,7 +23,7 @@ const PricingCard = ({ title, price, features, highlighted = false, index }) => 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
     >
       {highlighted && (
         <div style={{ 
@@ -67,7 +68,7 @@ const PricingCard = ({ title, price, features, highlighted = false, index }) => 
       </motion.div>
     </motion.div>
   );
-};
+});
 
 export default function Pricing() {
   const plans = [

@@ -18,7 +18,14 @@ export default function Gallery() {
       <div className="marquee-content">
         {marqueeImages.map((src, index) => (
           <div key={index} className="marquee-item">
-            <img src={src} alt={`Client Transformation ${index + 1}`} />
+            <img 
+              src={src} 
+              alt={`Client Transformation ${index + 1}`} 
+              loading="lazy"
+              decoding="async"
+              width="320"
+              height="260"
+            />
           </div>
         ))}
       </div>

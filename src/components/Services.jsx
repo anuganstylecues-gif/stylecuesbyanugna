@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Palette, User, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const ServiceCard = ({ icon: Icon, title, description, program, index }) => {
+const ServiceCard = React.memo(({ icon: Icon, title, description, program, index }) => {
   return (
     <motion.div
-      className="glass-card"
+      className="glass-card animated-element"
       style={{
         padding: '0',
         display: 'flex',
@@ -19,7 +19,7 @@ const ServiceCard = ({ icon: Icon, title, description, program, index }) => {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0 }}
+      transition={{ duration: 0.4, delay: 0, ease: 'easeOut' }}
     >
       <div className="card-inner" style={{ padding: '40px 40px 30px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <div className="card-heading-container" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
@@ -66,7 +66,7 @@ const ServiceCard = ({ icon: Icon, title, description, program, index }) => {
       </div>
     </motion.div>
   );
-};
+});
 
 export default function Services() {
   const mergedServices = [
