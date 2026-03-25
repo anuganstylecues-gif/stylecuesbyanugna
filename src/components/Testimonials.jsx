@@ -90,7 +90,7 @@ const VideoCard = React.memo(({ src }) => {
         ref={videoRef}
         src={src}
         preload="none"
-        poster="https://res.cloudinary.com/ducb7wymk/image/upload/v1774007901/WhatsApp_Image_2026-03-19_at_17.16.41_3_gil2nt.jpg"
+        // poster="https://res.cloudinary.com/ducb7wymk/image/upload/v1774007901/WhatsApp_Image_2026-03-19_at_17.16.41_3_gil2nt.jpg"
         loop
         muted={isMuted}
         playsInline
