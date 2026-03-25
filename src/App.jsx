@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageTransition from './components/PageTransition';
+import ScrollToTop from './components/ScrollToTop';
 import './index.css';
 
 // Lazy loaded page components
@@ -43,6 +44,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <Navbar />
         <AnimatedRoutes />
