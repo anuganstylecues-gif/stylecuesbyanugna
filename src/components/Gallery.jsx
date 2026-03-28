@@ -8,7 +8,6 @@ export default function Gallery() {
     "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434884/IMG_8506_cnsysm.jpg",
     "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434879/IMG_8504_lnpmgs.jpg",
     "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434877/IMG_8274_iuo6zv.jpg",
-    "https://res.cloudinary.com/ducb7wymk/image/upload/v1774434878/IMG_8341_ebtkmd.jpg"
   ]
   // Duplicate the array for a seamless infinite scroll effect
   const marqueeImages = [...images, ...images];

@@ -149,19 +149,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Gallery = () => {
   const [filter, setFilter] = useState('All');
 
-  const categories = ['All', 'Client Transformations', 'Bridal Styling', 'Event Styling'];
+  // const categories = ['All', 'Bridal Styling', 'Event Styling'];
 
   const projects = [
     { id: 1, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434885/IMG_8505_l1ynz7.jpg' },
     { id: 2, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434885/IMG_8513_yvhiwd.jpg' },
     { id: 3, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434885/IMG_8507_g8jgjr.jpg' },
-    { id: 4, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434884/IMG_8506_cnsysm.jpg' },
-    { id: 5, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434879/IMG_8504_lnpmgs.jpg' },
-    { id: 6, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434877/IMG_8274_iuo6zv.jpg' },
-    { id: 7, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434878/IMG_8341_ebtkmd.jpg' },
-    { id: 8, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774435245/copy_of_img_8261_qko1i2_6932d6.png' },
+    { id: 4, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434444/IMG_2601_i0nnmv.jpg' },
+    { id: 5, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434884/IMG_8506_cnsysm.jpg' },
+    { id: 6, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434879/IMG_8504_lnpmgs.jpg' },
+    { id: 7, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434877/IMG_8274_iuo6zv.jpg' },
+    { id: 8, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434878/IMG_8341_ebtkmd.jpg' },
+    { id: 9, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774435245/copy_of_img_8261_qko1i2_6932d6.png' },
     { id: 9, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774438480/WhatsApp_Image_2026-03-25_at_17.04.04_1_hsjlrr.jpg' },
     { id: 10, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774438480/WhatsApp_Image_2026-03-25_at_17.04.04_hxstyk.jpg' },
+    { id: 11, category: 'Client Transformations', image: 'https://res.cloudinary.com/ducb7wymk/image/upload/v1774434434/IMG_1273_mysr5z.jpg' },
   ];
 
   const filteredProjects =
@@ -176,7 +178,7 @@ const Gallery = () => {
         </p>
 
         {/* FILTER BUTTONS */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap', marginBottom: '40px' }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap', marginBottom: '40px' }}>
           {categories.map((cat, idx) => (
             <button
               key={idx}
@@ -193,7 +195,7 @@ const Gallery = () => {
               {cat}
             </button>
           ))}
-        </div>
+        </div> */}
 
         {/* GRID */}
         <motion.div layout className="grid">

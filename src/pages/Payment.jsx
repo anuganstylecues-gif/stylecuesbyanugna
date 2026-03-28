@@ -113,14 +113,14 @@ const Payment = () => {
             <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-dark)' }}>₹{AMOUNT.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
             <p style={{ marginTop: '5px', fontSize: '0.9rem', opacity: 0.8 }}>Pay using any UPI app</p>
           </div>
-
+{/* 
           <a
             href={`upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${AMOUNT}&cu=INR`}
             className="premium-button button-primary"
             style={{ width: '100%', padding: '15px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', marginBottom: '15px', textDecoration: 'none' }}
           >
             Pay Now
-          </a>
+          </a> */}
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
             <div
