@@ -1,11 +1,26 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 
 const WHATSAPP_NUMBER = "917416605187"; // Replace with real WhatsApp number
 
 const Confirmation = () => {
-  const { state } = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const state = location.state;
+  
+  useEffect(() => {
+    // Check if user came from legitimate payment flow
+    const transactionId = state?.transactionId;
+    const fullName = state?.fullName;
+
+    // If no transaction ID or name, user came directly via URL
+    if (!transactionId || !fullName) {
+      navigate('/', { replace: true });
+    }
+  }, [state, navigate]);
+
   const transactionId = state?.transactionId || '';
 
   const textMessage = `Hello Stylecues by Anugna! 🎉

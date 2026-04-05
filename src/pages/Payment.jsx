@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Copy, CheckCircle, Lock } from 'lucide-react';
@@ -8,7 +8,17 @@ const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const Payment = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const location = useLocation();
+  const state = location.state;
+
+  useEffect(() => {
+    const fullName = state?.fullName;
+    
+    // If user lands directly on payment page without form
+    if (!fullName) {
+      navigate('/booking', { replace: true });
+    }
+  }, [state, navigate]);
 
   const formData = state || {};
   const selectedProgram = formData.program || "Coloring Service";
