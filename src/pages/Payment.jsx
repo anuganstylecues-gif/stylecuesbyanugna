@@ -4,9 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Copy, CheckCircle, Lock } from 'lucide-react';
 
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbwzanF3SyWjCUHnn5Ad1RXws8qNAey8wWPwokK0i-8tWaKiTTB2iifonutwCTXrDf8jTw/exec";
-const UPI_ID = "stylecuesanugna@upi";
-const UPI_NAME = "Stylecues+by+Anugna";
-const AMOUNT = "12000";
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -16,11 +14,10 @@ const Payment = () => {
   const selectedProgram = formData.program || "Coloring Service";
   const selectedPrice = formData.price || "₹12,000";
 
-  const [transactionId, setTransactionId] = useState('');
-  const [error, setError] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [paymentError, setPaymentError] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(false);
 
-  const saveToSheets = async (transactionId) => {
+  const saveToSheets = async (transactionId, paymentStatus) => {
     const payload = {
       fullName: formData.fullName,
       phone: formData.phone,
@@ -29,23 +26,20 @@ const Payment = () => {
       mode: formData.mode,
       workType: formData.workType,
       companyName: formData.companyName,
-      needs: formData.needs.join(", "),
+      needs: formData.needs?.join(", ") || "",
       challenge: formData.challenge,
       goals: formData.goals,
       timing: formData.timing,
       program: selectedProgram,
       price: selectedPrice,
       transactionId: transactionId,
-      paymentStatus: "Pending Verification",
+      paymentStatus: paymentStatus, // "Success" or "Failed" or "Cancelled"
       dateTime: new Date().toLocaleString("en-IN")
     };
 
-    // Use URL params instead of POST body
-    // This fixes CORS on localhost
-    const url = new URL(SHEET_URL);
-    url.searchParams.append('data', JSON.stringify(payload));
-
     try {
+      const url = new URL(SHEET_URL);
+      url.searchParams.append('data', JSON.stringify(payload));
       await fetch(url.toString(), {
         method: "GET",
         mode: "no-cors",
@@ -55,46 +49,63 @@ const Payment = () => {
     }
   };
 
-  const validateTransactionId = (id) => {
-    if (!id || id.length < 10) return false;
-    if (!/^[a-zA-Z0-9]+$/.test(id)) return false;
-    if (/^0+$/.test(id)) return false;
-    if (/^[a-zA-Z]+$/.test(id)) return false;
-    if (/^(.)\1+$/.test(id)) return false;
-
-    const lowerId = id.toLowerCase();
-    const commonFakes = ["123456789", "0123456789", "1234567890", "test", "paid", "done", "random", "abcdefghij", "12345678910"];
-    if (commonFakes.some(fake => lowerId.includes(fake))) return false;
-
-    const isSequential = (str) => {
-      let fwdCount = 0;
-      let revCount = 0;
-      for (let i = 0; i < str.length - 1; i++) {
-        if (str.charCodeAt(i + 1) === str.charCodeAt(i) + 1) fwdCount++; else fwdCount = 0;
-        if (str.charCodeAt(i + 1) === str.charCodeAt(i) - 1) revCount++; else revCount = 0;
-        if (fwdCount >= 4 || revCount >= 4) return true;
+  const handlePayment = () => {
+    const options = {
+      key: RAZORPAY_KEY_ID,
+      amount: 1200000, // ₹12,000 in paise
+      currency: "INR",
+      name: "Stylecues by Anugna",
+      description: "Coloring Styling Session",
+      image: "/favicon.svg",
+      prefill: {
+        name: formData.fullName,
+        email: formData.email,
+        contact: formData.phone
+      },
+      notes: {
+        program: selectedProgram,
+        city: formData.city
+      },
+      theme: {
+        color: "#C0847A" // website accent color
+      },
+      handler: async function(response) {
+        // Show overlay IMMEDIATELY
+        setShowOverlay(true);
+        
+        const transactionId = response.razorpay_payment_id;
+        
+        // Save to sheets in background
+        await saveToSheets(transactionId, "Success");
+        
+        // Then navigate to success
+        navigate('/success', {
+          state: {
+            ...formData,
+            transactionId: transactionId,
+            program: selectedProgram,
+            price: selectedPrice,
+            paymentStatus: "Success"
+          }
+        });
+      },
+      modal: {
+        ondismiss: function() {
+          setPaymentError("Payment cancelled. Please try again.");
+          saveToSheets("CANCELLED", "Cancelled");
+        }
       }
-      return false;
     };
-    if (isSequential(lowerId)) return false;
 
-    return true;
-  };
+    const rzp = new window.Razorpay(options);
+    
+    rzp.on('payment.failed', async function(response) {
+      const errorDesc = response.error.description;
+      await saveToSheets(response.error.metadata.payment_id || "FAILED", "Failed");
+      setPaymentError(`Payment failed: ${errorDesc}. Please try again.`);
+    });
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(UPI_ID);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handlePayment = async () => {
-    if (validateTransactionId(transactionId)) {
-      setError(false);
-      await saveToSheets(transactionId);
-      navigate('/confirmation', { state: { transactionId } });
-    } else {
-      setError(true);
-    }
+    rzp.open();
   };
 
   return (
@@ -108,91 +119,141 @@ const Payment = () => {
         </div>
 
         <div className="glass-card" style={{ padding: '40px' }}>
-          <div style={{ background: 'rgba(0,0,0,0.03)', borderRadius: '12px', padding: '20px', marginBottom: '25px', textAlign: 'center' }}>
-            <span style={{ display: 'block', opacity: 0.7, marginBottom: '5px' }}>Coloring Service</span>
-            <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-dark)' }}>₹{AMOUNT.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
-            <p style={{ marginTop: '5px', fontSize: '0.9rem', opacity: 0.8 }}>Pay using any UPI app</p>
+          <div style={{ background: 'rgba(0,0,0,0.03)', borderRadius: '12px', padding: '24px', marginBottom: '30px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '15px' }}>
+              <span style={{ opacity: 0.7 }}>Service</span>
+              <span style={{ fontWeight: 600 }}>{selectedProgram}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '15px' }}>
+              <span style={{ opacity: 0.7 }}>Amount</span>
+              <span style={{ fontWeight: 600 }}>{selectedPrice}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ opacity: 0.7 }}>Mode</span>
+              <span style={{ fontWeight: 600 }}>{formData.mode || "Online"}</span>
+            </div>
           </div>
-{/* 
-          <a
-            href={`upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${AMOUNT}&cu=INR`}
-            className="premium-button button-primary"
-            style={{ width: '100%', padding: '15px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', marginBottom: '15px', textDecoration: 'none' }}
-          >
-            Pay Now
-          </a> */}
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
-            <div
-              onClick={handleCopy}
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 20px', background: 'rgba(255,255,255,0.5)', border: '1px dashed rgba(0,0,0,0.2)', borderRadius: '8px', cursor: 'pointer', position: 'relative' }}
+          {paymentError && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ 
+                background: 'rgba(211, 47, 47, 0.05)', 
+                border: '1px solid rgba(211, 47, 47, 0.2)', 
+                borderRadius: '8px', 
+                padding: '15px', 
+                marginBottom: '25px',
+                color: '#d32f2f',
+                fontSize: '0.9rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px'
+              }}
             >
-              <span style={{ fontWeight: 500, fontFamily: 'monospace', fontSize: '1.1rem' }}>{UPI_ID}</span>
-              {copied ? <CheckCircle size={18} color="green" /> : <Copy size={18} opacity={0.6} />}
-              {copied && (
-                <span style={{ position: 'absolute', top: '-30px', background: '#333', color: '#fff', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>Copied!</span>
-              )}
-            </div>
-
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px', justifyContent: 'center', opacity: 0.7, alignItems: 'center', flexWrap: 'wrap' }}>
-              <div style={{ fontSize: '0.8rem', padding: '4px 8px', background: 'rgba(0,0,0,0.05)', borderRadius: '4px' }}>Google Pay</div>
-              <div style={{ fontSize: '0.8rem', padding: '4px 8px', background: 'rgba(0,0,0,0.05)', borderRadius: '4px' }}>PhonePe</div>
-              <div style={{ fontSize: '0.8rem', padding: '4px 8px', background: 'rgba(0,0,0,0.05)', borderRadius: '4px' }}>Paytm</div>
-              <div style={{ fontSize: '0.8rem', padding: '4px 8px', background: 'rgba(0,0,0,0.05)', borderRadius: '4px' }}>Any UPI App</div>
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '25px' }}>
-            <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px' }}>Enter Transaction ID / UTR Number <span style={{ color: 'red' }}>*</span></label>
-            <input
-              type="text"
-              placeholder="e.g. 316XXXXXXXXX"
-              value={transactionId}
-              onChange={(e) => {
-                setTransactionId(e.target.value);
-                if (error) setError(false);
-              }}
-              style={{
-                width: '100%',
-                padding: '15px',
-                borderRadius: '8px',
-                border: `1px solid ${error ? 'red' : 'rgba(0,0,0,0.1)'}`,
-                background: 'rgba(255,255,255,0.8)',
-                outline: 'none',
-                fontFamily: 'inherit',
-                fontSize: '1rem',
-                marginBottom: '5px'
-              }}
-            />
-            {error ? (
-              <p style={{ color: '#d32f2f', fontSize: '0.85rem', marginTop: '5px', display: 'flex', gap: '5px', alignItems: 'flex-start' }}>
-                <span style={{ marginTop: '2px' }}>⚠️</span> Invalid Transaction ID. Please check your UPI app payment history and enter the correct UTR / Transaction ID.
-              </p>
-            ) : (
-              <p style={{ opacity: 0.6, fontSize: '0.85rem', marginTop: '5px' }}>Find your Transaction ID in your UPI app under payment history</p>
-            )}
-          </div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontWeight: 500 }}>
+                <span>❌</span> {paymentError}
+              </div>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button 
+                  onClick={handlePayment}
+                  style={{ 
+                    background: '#d32f2f', 
+                    color: 'white', 
+                    border: 'none', 
+                    padding: '8px 16px', 
+                    borderRadius: '6px', 
+                    fontSize: '0.85rem', 
+                    cursor: 'pointer',
+                    fontWeight: 600
+                  }}
+                >
+                  Try Again
+                </button>
+                <a 
+                  href={`https://wa.me/917416605187?text=${encodeURIComponent("Hello, I am facing a payment issue for " + selectedProgram + ". My details: " + formData.fullName)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ 
+                    color: '#d32f2f', 
+                    fontSize: '0.85rem', 
+                    textDecoration: 'underline',
+                    alignSelf: 'center',
+                    fontWeight: 500
+                  }}
+                >
+                  Contact Us
+                </a>
+              </div>
+            </motion.div>
+          )}
 
           <motion.button
-            whileHover={transactionId.length >= 10 ? { scale: 1.02 } : {}}
-            whileTap={transactionId.length >= 10 ? { scale: 0.98 } : {}}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handlePayment}
             className="premium-button button-primary"
             style={{
               width: '100%',
-              padding: '15px',
-              fontSize: '1.1rem',
-              marginTop: '30px',
-              opacity: transactionId.length < 10 ? 0.6 : 1,
-              cursor: transactionId.length < 10 ? 'not-allowed' : 'pointer'
+              padding: '18px',
+              fontSize: '1.2rem',
+              fontWeight: 600,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '10px'
             }}
           >
-            Confirm Payment
+            Pay {selectedPrice} →
           </motion.button>
+          
+          <div style={{ marginTop: '20px', textAlign: 'center', opacity: 0.6, fontSize: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <Lock size={14} /> 100% Secure Transaction via Razorpay
+          </div>
         </div>
-      </div>
+      {/* Payment Success Overlay */}
+      {showOverlay && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(255,255,255,0.97)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999,
+          gap: '20px',
+          padding: '20px',
+          textAlign: 'center'
+        }}>
+          {/* Spinner */}
+          <div style={{
+            width: '60px',
+            height: '60px',
+            border: '4px solid #f3f3f3',
+            borderTop: '4px solid var(--color-accent-dark)',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }} />
+          <h2 style={{ 
+            color: 'var(--color-accent-dark)',
+            fontSize: '1.8rem',
+            margin: 0
+          }}>
+            Payment Confirmed! ✅
+          </h2>
+          <div style={{ color: '#666', fontSize: '1.1rem' }}>
+            <p style={{ margin: '0 0 5px' }}>Please do not press back button</p>
+            <p style={{ margin: 0 }}>Redirecting you to confirmation page...</p>
+          </div>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
 };
 
 export default Payment;
