@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Palette, User, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Palette, User, Heart, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const ServiceCard = React.memo(({ icon: Icon, title, description, program, index }) => {
+const ServiceCard = React.memo(({ icon: Icon, tag, title, description, features, program, index }) => {
   return (
     <motion.div
       className="glass-card animated-element"
@@ -21,26 +21,55 @@ const ServiceCard = React.memo(({ icon: Icon, title, description, program, index
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: 0, ease: 'easeOut' }}
     >
-      <div className="card-inner" style={{ padding: '40px 40px 30px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="card-heading-container" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-          <div className="icon-box" style={{
-            width: '60px',
-            height: '60px',
-            borderRadius: '15px',
-            background: 'var(--color-accent-light)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'var(--color-accent-dark)',
-            flexShrink: 0
-          }}>
-            <Icon size={30} className="service-icon" />
+      <div className="card-inner" style={{ padding: '40px 40px 30px', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div className="card-content-top" style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+          {tag && (
+            <div className="card-tag" style={{
+              background: 'rgba(192, 132, 122, 0.15)',
+              color: 'var(--color-accent-dark)',
+              padding: '6px 14px',
+              borderRadius: '50px',
+              fontSize: '0.75rem',
+              fontWeight: '700',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              width: 'fit-content',
+              marginBottom: '15px'
+            }}>
+              {tag}
+            </div>
+          )}
+          <div className="card-heading-container" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
+            <div className="icon-box" style={{
+              width: '60px',
+              height: '60px',
+              borderRadius: '15px',
+              background: 'var(--color-accent-light)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: 'var(--color-accent-dark)',
+              flexShrink: 0
+            }}>
+              <Icon size={30} className="service-icon" />
+            </div>
+            <h3 className="card-title" style={{ fontSize: '1.8rem', margin: 0, fontFamily: 'var(--font-heading)', wordBreak: 'break-word' }}>{title}</h3>
           </div>
-          <h3 className="card-title" style={{ fontSize: '1.8rem', margin: 0, fontFamily: 'var(--font-heading)', wordBreak: 'break-word' }}>{title}</h3>
-        </div>
-        <p className="card-desc" style={{ color: '#555', fontSize: '1rem', lineHeight: '1.6', marginBottom: '30px', flexGrow: 1, overflow: 'hidden' }}>{description}</p>
+          <p className="card-desc" style={{ color: '#555', fontSize: '1rem', lineHeight: '1.6', marginBottom: features ? '20px' : '30px', overflow: 'hidden' }}>{description}</p>
 
-        <div className="program-box" style={{
+          {features && (
+            <ul style={{ listStyle: 'none', margin: '0 0 30px 0', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', flexGrow: 1 }}>
+              {features.map((feature, i) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.95rem', color: '#444', lineHeight: '1.4' }}>
+                  <span style={{ color: 'var(--color-accent-dark)', flexShrink: 0, fontSize: '0.9rem' }}>✦</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="program-box card-program-box" style={{
           background: 'var(--color-bg)',
           padding: '20px',
           borderRadius: '15px',
@@ -51,14 +80,37 @@ const ServiceCard = React.memo(({ icon: Icon, title, description, program, index
         }}>
           <p className="program-label" style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#777', marginBottom: '10px', fontWeight: '600' }}>Available Program</p>
           <h4 className="program-title" style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading)', color: 'var(--color-accent-dark)', marginBottom: '5px' }}>{program.name}</h4>
-          <p className="program-details" style={{ fontSize: '0.9rem', color: '#666', marginBottom: '15px' }}>{program.details}</p>
-          {program.price && <div className="program-price" style={{ fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '20px' }}>{program.price}</div>}
+          {program.details && <p className="program-details" style={{ fontSize: '0.9rem', color: '#666', marginBottom: '15px' }}>{program.details}</p>}
+          
+          {program.priceOriginal && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px' }}>
+              <span style={{ fontSize: '1.1rem', textDecoration: 'line-through', color: '#888' }}>{program.priceOriginal}</span>
+              <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--color-text)' }}>{program.price}</span>
+            </div>
+          )}
+          {!program.priceOriginal && program.price && (
+            <div className="program-price" style={{ fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '20px' }}>{program.price}</div>
+          )}
+          {program.priceBadge && (
+            <div style={{
+              background: 'rgba(192, 132, 122, 0.1)',
+              color: 'var(--color-accent-dark)',
+              padding: '6px 12px',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+              marginBottom: '15px',
+              width: 'fit-content'
+            }}>
+              {program.priceBadge}
+            </div>
+          )}
 
           <Link
             to={program.route}
             state={{ program: program.name, price: program.price }}
             className="premium-button button-primary program-btn"
-            style={{ width: '100%', textAlign: 'center', padding: '12px 20px', marginTop: program.price ? 'auto' : '20px', display: 'block' }}
+            style={{ width: '100%', textAlign: 'center', padding: '12px 20px', marginTop: (program.price || program.priceOriginal) ? 'auto' : '20px', display: 'block' }}
           >
             {program.buttonText}
           </Link>
@@ -71,9 +123,56 @@ const ServiceCard = React.memo(({ icon: Icon, title, description, program, index
 export default function Services() {
   const mergedServices = [
     {
+      icon: Sparkles,
+      tag: "UK Telugu Pageant",
+      title: "Basic Package",
+      description: "Your foundation for a confident, polished pageant look",
+      features: [
+        "Color Analysis — 30 best colors curated to your skin tone",
+        "Body type analysis with flattering silhouette guidance",
+        "Face type analysis to enhance your natural features",
+        "Basic style guidance tailored to your unique type"
+      ],
+      program: {
+        name: "Basic Package — UK Telugu Pageant",
+        price: "₹18,000",
+        priceOriginal: "₹25,000",
+        priceBadge: "Save ₹7,000 · Limited time offer",
+        buttonText: "Book Now",
+        route: "/booking"
+      }
+    },
+    {
+      icon: Sparkles,
+      tag: "UK Telugu Pageant",
+      title: "Luxe Package",
+      description: "A complete style transformation built for the stage",
+      features: [
+        "Extended color analysis — 60+ best colors for every look and occasion",
+        "Body type analysis with advanced styling strategies",
+        "Face type analysis with makeup & accessory guidance",
+        "Signature style development — defining your unique style identity",
+        "Personalized shopping guidance — exactly what to buy and where"
+      ],
+      program: {
+        name: "Luxe Package — UK Telugu Pageant",
+        price: "₹35,000",
+        priceOriginal: "₹45,000",
+        priceBadge: "Save ₹10,000 · Limited time offer",
+        buttonText: "Book Now",
+        route: "/booking"
+      }
+    },
+    {
       icon: Palette,
       title: "Color Analysis",
       description: "Discover your ideal color palette and learn which shades enhance your natural features based on your skin, hair, and eyes.",
+      features: [
+        "Discover your 30 best colors suited to your skin tone",
+        "Seasonal color palette analysis",
+        "Colors to wear and avoid guide",
+        "Personalized 50-page digital style lookbook"
+      ],
       program: {
         name: "Online Color Analysis Session",
         details: "45 min virtual session + 50-page digital style lookbook.",
@@ -86,6 +185,12 @@ export default function Services() {
       icon: User,
       title: "Personal Styling",
       description: "A tailored approach to your wardrobe that aligns with your personality, lifestyle, and body type. Includes a comprehensive wardrobe audit and strategic shopping advice.",
+      features: [
+        "Complete wardrobe audit session",
+        "Body type analysis with flattering silhouette guidance",
+        "Personalized style roadmap",
+        "Strategic shopping guidance"
+      ],
       program: {
         name: "Complete Style Makeover",
         details: "3-4 hour comprehensive session (virtual or in-person).",
@@ -98,6 +203,12 @@ export default function Services() {
       icon: Heart,
       title: "Bridal Styling",
       description: "Expert luxury guidance for your special day. From selecting the perfect bridal gown and jewelry to coordinating the entire bridal party's looks seamlessly.",
+      features: [
+        "Bridal look curation from head to toe",
+        "Jewelry and accessory guidance",
+        "Bridal party coordination",
+        "Full day personal styling companion"
+      ],
       program: {
         name: "Bridal Styling Consultation",
         details: "Full day curation, mapping, and personal shopping companion.",
@@ -275,14 +386,19 @@ export default function Services() {
            .service-card-wrapper {
               min-width: 85vw !important; 
               max-width: 85vw !important; 
-              height: 420px !important; 
+              height: auto !important; 
+              min-height: 420px !important;
               padding: 0 !important;
               box-sizing: border-box;
            }
-           /* Optimize internal card density to fit within 420px strictly */
-           .glass-card .card-inner {
-              padding: 24px 20px 20px !important;
-           }
+            /* Optimize internal card density to fit within 420px strictly */
+            .glass-card .card-inner {
+               padding: 24px 20px 20px !important;
+               justify-content: flex-start !important;
+            }
+            .glass-card .card-program-box {
+               margin-top: 20px !important;
+            }
            .glass-card .card-heading-container {
               gap: 8px !important;
               margin-bottom: 12px !important;

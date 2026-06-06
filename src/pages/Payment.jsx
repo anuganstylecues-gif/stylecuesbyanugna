@@ -59,10 +59,18 @@ const Payment = () => {
     }
   };
 
+  const getAmountInPaise = (priceString) => {
+    const numericPrice = priceString
+      .replace('₹', '')
+      .replace(/,/g, '')
+      .trim();
+    return parseInt(numericPrice) * 100;
+  };
+
   const handlePayment = () => {
     const options = {
       key: RAZORPAY_KEY_ID,
-      amount: 1200000, // ₹12,000 in paise
+      amount: getAmountInPaise(selectedPrice),
       currency: "INR",
       name: "Stylecues by Anugna",
       description: "Coloring Styling Session",

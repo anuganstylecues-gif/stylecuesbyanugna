@@ -145,11 +145,12 @@ export default function Hero() {
           transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
           viewport={{ once: true }}
         >
-          <div style={styles.imageWrapper} className="imageWrapper">
+          <div style={styles.imageWrapper} className="imageWrapper hero-image-container">
             <img
-              src="https://res.cloudinary.com/ducb7wymk/image/upload/v1774439013/copy_of_def967f5-76a9-4db2-b9d8-00dbfd36eed3_1_105_c_ooyqhw_09b06c.jpg"
+              src="https://res.cloudinary.com/ducb7wymk/image/upload/v1780727702/IMG_1569.JPG_eumevc.jpg"
               alt="Personal Stylist"
               loading="eager"
+              className="hero-image"
               fetchpriority="high"
               decoding="async"
               width="600"
@@ -305,6 +306,26 @@ export default function Hero() {
           #hero .hero-title { font-size: 24px !important; }
           #hero .subtext { font-size: 14px !important; }
           #hero .buttonGroup a { padding: 10px 12px !important; font-size: 12px !important; }
+        }
+        
+        @media (min-width: 768px) {
+          .hero-image-container {
+            width: fit-content !important;
+            height: fit-content !important;
+            padding: 0 !important;
+            display: inline-block !important;
+            max-height: 550px !important;
+          }
+
+          .hero-image {
+            width: 100%;
+            height: 100%;
+            max-height: 550px !important;
+            object-fit: cover !important;
+            object-position: top center !important;
+            display: block !important;
+            border-radius: inherit !important;
+          }
         }
       `}</style>
     </section>
