@@ -66,7 +66,7 @@ export default function FAQ() {
     },
     {
       question: "How long does a typical makeover take?",
-      answer: "A standard Color Analysis takes about 45-60 minutes. The full Style Makeover, including a wardrobe audit, usually takes 2-3 hours spread over two sessions to ensure you have time to digest the information and ask questions."
+      answer: "A standard Color Analysis takes about 60 minutes. The full Style Makeover, including a wardrobe audit, usually takes 2-3 hours spread over two sessions to ensure you have time to digest the information and ask questions."
     },
     {
       question: "Will I get a list of where to shop?",
