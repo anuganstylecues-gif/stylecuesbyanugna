@@ -147,7 +147,7 @@ export default function Hero() {
         >
           <div style={styles.imageWrapper} className="imageWrapper hero-image-container">
             <img
-              src="https://res.cloudinary.com/ducb7wymk/image/upload/v1780727702/IMG_1569.JPG_eumevc.jpg"
+              src="https://res.cloudinary.com/ducb7wymk/image/upload/v1785064750/IMG_1569.JPG_eumevc-removebg-preview_x7m3gs.png"
               alt="Personal Stylist"
               loading="eager"
               className="hero-image"

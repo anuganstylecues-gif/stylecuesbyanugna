@@ -122,47 +122,47 @@ const ServiceCard = React.memo(({ icon: Icon, tag, title, description, features,
 
 export default function Services() {
   const mergedServices = [
-    {
-      icon: Sparkles,
-      tag: "UK Telugu Pageant",
-      title: "Basic Package",
-      description: "Your foundation for a confident, polished pageant look",
-      features: [
-        "Color Analysis — 30 best colors curated to your skin tone",
-        "Body type analysis with flattering silhouette guidance",
-        "Face type analysis to enhance your natural features",
-        "Basic style guidance tailored to your unique type"
-      ],
-      program: {
-        name: "Basic Package — UK Telugu Pageant",
-        price: "₹18,000",
-        priceOriginal: "₹25,000",
-        priceBadge: "Save ₹7,000 · Limited time offer",
-        buttonText: "Book Now",
-        route: "/booking"
-      }
-    },
-    {
-      icon: Sparkles,
-      tag: "UK Telugu Pageant",
-      title: "Luxe Package",
-      description: "A complete style transformation built for the stage",
-      features: [
-        "Extended color analysis — 60+ best colors for every look and occasion",
-        "Body type analysis with advanced styling strategies",
-        "Face type analysis with makeup & accessory guidance",
-        "Signature style development — defining your unique style identity",
-        "Personalized shopping guidance — exactly what to buy and where"
-      ],
-      program: {
-        name: "Luxe Package — UK Telugu Pageant",
-        price: "₹35,000",
-        priceOriginal: "₹45,000",
-        priceBadge: "Save ₹10,000 · Limited time offer",
-        buttonText: "Book Now",
-        route: "/booking"
-      }
-    },
+    // {
+    //   icon: Sparkles,
+    //   tag: "UK Telugu Pageant",
+    //   title: "Basic Package",
+    //   description: "Your foundation for a confident, polished pageant look",
+    //   features: [
+    //     "Color Analysis — 30 best colors curated to your skin tone",
+    //     "Body type analysis with flattering silhouette guidance",
+    //     "Face type analysis to enhance your natural features",
+    //     "Basic style guidance tailored to your unique type"
+    //   ],
+    //   program: {
+    //     name: "Basic Package — UK Telugu Pageant",
+    //     price: "₹18,000",
+    //     priceOriginal: "₹25,000",
+    //     priceBadge: "Save ₹7,000 · Limited time offer",
+    //     buttonText: "Book Now",
+    //     route: "/booking"
+    //   }
+    // },
+    // {
+    //   icon: Sparkles,
+    //   tag: "UK Telugu Pageant",
+    //   title: "Luxe Package",
+    //   description: "A complete style transformation built for the stage",
+    //   features: [
+    //     "Extended color analysis — 60+ best colors for every look and occasion",
+    //     "Body type analysis with advanced styling strategies",
+    //     "Face type analysis with makeup & accessory guidance",
+    //     "Signature style development — defining your unique style identity",
+    //     "Personalized shopping guidance — exactly what to buy and where"
+    //   ],
+    //   program: {
+    //     name: "Luxe Package — UK Telugu Pageant",
+    //     price: "₹35,000",
+    //     priceOriginal: "₹45,000",
+    //     priceBadge: "Save ₹10,000 · Limited time offer",
+    //     buttonText: "Book Now",
+    //     route: "/booking"
+    //   }
+    // },
     {
       icon: Palette,
       title: "Color Analysis",

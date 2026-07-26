@@ -3,47 +3,47 @@ import { Link } from 'react-router-dom';
 
 const Services = () => {
   const mergedServices = [
-    {
-      tag: "UK Telugu Pageant",
-      title: "Basic Package",
-      desc: "Your foundation for a confident, polished pageant look",
-      features: [
-        "Color Analysis — 30 best colors curated to your skin tone",
-        "Body type analysis with flattering silhouette guidance",
-        "Face type analysis to enhance your natural features",
-        "Basic style guidance tailored to your unique type"
-      ],
-      program: {
-        name: "Basic Package — UK Telugu Pageant",
-        price: "₹18,000",
-        priceOriginal: "₹25,000",
-        priceBadge: "Save ₹7,000 · Limited time offer",
-        buttonText: "Book Now",
-        route: "/booking"
-      },
-      image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=600"
-    },
-    {
-      tag: "UK Telugu Pageant",
-      title: "Luxe Package",
-      desc: "A complete style transformation built for the stage",
-      features: [
-        "Extended color analysis — 60+ best colors for every look and occasion",
-        "Body type analysis with advanced styling strategies",
-        "Face type analysis with makeup & accessory guidance",
-        "Signature style development — defining your unique style identity",
-        "Personalized shopping guidance — exactly what to buy and where"
-      ],
-      program: {
-        name: "Luxe Package — UK Telugu Pageant",
-        price: "₹35,000",
-        priceOriginal: "₹45,000",
-        priceBadge: "Save ₹10,000 · Limited time offer",
-        buttonText: "Book Now",
-        route: "/booking"
-      },
-      image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&q=80&w=600"
-    },
+    // {
+    //   tag: "UK Telugu Pageant",
+    //   title: "Basic Package",
+    //   desc: "Your foundation for a confident, polished pageant look",
+    //   features: [
+    //     "Color Analysis — 30 best colors curated to your skin tone",
+    //     "Body type analysis with flattering silhouette guidance",
+    //     "Face type analysis to enhance your natural features",
+    //     "Basic style guidance tailored to your unique type"
+    //   ],
+    //   program: {
+    //     name: "Basic Package — UK Telugu Pageant",
+    //     price: "₹18,000",
+    //     priceOriginal: "₹25,000",
+    //     priceBadge: "Save ₹7,000 · Limited time offer",
+    //     buttonText: "Book Now",
+    //     route: "/booking"
+    //   },
+    //   image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=600"
+    // },
+    // {
+    //   tag: "UK Telugu Pageant",
+    //   title: "Luxe Package",
+    //   desc: "A complete style transformation built for the stage",
+    //   features: [
+    //     "Extended color analysis — 60+ best colors for every look and occasion",
+    //     "Body type analysis with advanced styling strategies",
+    //     "Face type analysis with makeup & accessory guidance",
+    //     "Signature style development — defining your unique style identity",
+    //     "Personalized shopping guidance — exactly what to buy and where"
+    //   ],
+    //   program: {
+    //     name: "Luxe Package — UK Telugu Pageant",
+    //     price: "₹35,000",
+    //     priceOriginal: "₹45,000",
+    //     priceBadge: "Save ₹10,000 · Limited time offer",
+    //     buttonText: "Book Now",
+    //     route: "/booking"
+    //   },
+    //   image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&q=80&w=600"
+    // },
     {
       title: 'Color Analysis',
       desc: 'Discover the palette that illuminates your natural features. Identify your undertones and build a harmonious color vocabulary.',
